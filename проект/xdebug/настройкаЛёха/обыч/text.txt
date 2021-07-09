@@ -1,0 +1,37 @@
+Настройка xdebug на проекте
+
+1) Выбираем интерпретатор php
+- File → Settings → PHP
+- нажать на … при выборе CLI Interpretator
+- выбрать Docker, Server: Docker, Image name: rightway-php:7.1, PHP interpretator path: php
+- Apply, Ok
+
+2) Настраиваем маппинг
+- открываем поле Docker container;
+- в Volume bindings прописываем container path, т.е. Путь до проекта в контейнере:
+для loyalty-2.0 это /home/apps/rightway/loyalty,
+для loyalty-processing - /home/apps/rightway/loyalty-processing,
+для rightway-catalog - /home/apps/rightway/rightway-catalog,
+- Ok Ok
+
+3) Валидируем и настраиваем debug
+- PHP → Debug;
+- Break at first line in PHP scripts — ставим галочку;
+-  нажимаем validate;
+- выбираем точку входа:
+для loyalty - /home/alexeylogachev/projects/norbit/loyalty-2-0/applications/web/www,
+для loyalty-processing - /home/alexeylogachev/projects/norbit/loyalty-processing/public,
+для rightway-catalog - /home/alexeylogachev/projects/norbit/rightway-catalog/public,
+- в Url to validation script пишем название контейнера (для loyalty это loyalty.local);
+- нажимаем validate.
+
+4) Добавляем сервер
+
+- Servers;
+- галочку на Use  path mappings
+- Name = имя контейнера
+для loyalty — loyalty.local,
+для loyalty-processing — processing.local,
+для rightway-catalog — catalog.local,
+
+mkazantsev@htc-cs.ru

@@ -1,0 +1,241 @@
+<?php
+require_once __DIR__ . '/common/components/Parser/FileFormat/FileFormat.php';
+require_once __DIR__ . '/common/components/Parser/FileTypes/FileTypes.php';
+
+/**
+ * Файл дефолтных настроек приложения. На его основе строится основной конфиг приложения - parameters.php
+ */
+return [
+    '%YII_DEBUG%' => true,
+    '%YII_TRACE_LEVEL%' => 3,
+    '%display_errors%' => 1,
+    '%error_reporting%' => E_ALL,
+
+    '%postgres_main_host%' => '{{ postgres.main_host }}',
+    '%postgres_main_port%' => {{ postgres.main_port }},
+    '%postgres_main_dbname%' => '{{ postgres.main_db }}',
+    '%postgres_main_user%' => '{{ postgres.main_user }}',
+    '%postgres_main_password%' => '{{ postgres.main_pwd }}',
+    '%components.db.attributes%' => [
+          // атрибут необходим для переиспользования коннекта драйверами PDO
+          // Для 14 сервера продакшна выставлены в false, иначе возникают проблемы с подключением
+          \PDO::ATTR_PERSISTENT => true,
+      ],
+
+    '%postgres_personal_host%' => '{{ postgres.personal_host }}',
+    '%postgres_personal_port%' => {{ postgres.personal_port }},
+    '%postgres_personal_dbname%' => '{{ postgres.personal_db }}',
+    '%postgres_personal_user%' => '{{ postgres.personal_user }}',
+    '%postgres_personal_password%' => '{{ postgres.personal_pwd }}',
+    '%components.dbPersonal.attributes%' => [
+          // атрибут необходим для переиспользования коннекта драйверами PDO
+          // Для 14 сервера продакшна выставлены в false, иначе возникают проблемы с подключением
+          \PDO::ATTR_PERSISTENT => true,
+      ],
+
+    '%mongo_host%' => '{{ mongodb.host }}',
+    '%mongo_port%' => {{ mongodb.port }},
+    '%mongo_database%' => '{{ mongodb.cardsmile_database }}',
+    '%mongo_auth_database%' => '{{ mongodb.auth_database }}',
+    '%mongo_username%' => '{{ mongodb.username }}',
+    '%mongo_password%' => '{{ mongodb.password }}',
+    '%mongo_enable_profiling%' => true,
+    '%mongodb.options%' => [
+        // Закомментировать username и password, если не используется авторизация
+        'username' => '%mongo_username%',
+        'password' => '%mongo_password%',
+        'db' => '%mongo_database%',
+        'authSource' => '%mongo_auth_database%',
+        'connectTimeoutMS' => 1200000,
+        'socketTimeoutMS' => 1200000,
+    ],
+
+    '%redis_host%' => '{{ redis.main_host }}',
+    '%redis_port%' => {{ redis.main_port }},
+    '%redis_database%' => {{ redis.main_db }},
+    '%redis_prefix%' => '{{ redis.prefix }}',
+
+    '%redis_cache_host%' => '{{ redis.cache_host }}',
+    '%redis_cache_port%' => {{ redis.cache_port }},
+    '%redis_cache_database%' => {{ redis.cache_db }},
+
+    '%rabbitmq_host%' => '{{ rabbitmq.host }}',
+    '%rabbitmq_port%' => {{ rabbitmq.port }},
+    '%rabbitmq_username%' => '{{ rabbitmq.username }}',
+    '%rabbitmq_password%' => '{{ rabbitmq.password }}',
+    '%rabbitmq_vhost%' => '{{ rabbitmq.vhost }}',
+    // Флаг закрытия подключений с базами данных после обработки сообщения консьюмером
+    '%rabbitmq.consumer.close_orm_connections_after_message_processing%' => false,
+
+    '%irg_passbook_ftp_host%' => '',
+    '%irg_passbook_ftp_port%' => '',
+    '%irg_passbook_ftp_user%' => '',
+    '%irg_passbook_ftp_pass%' => '',
+
+    '%communication_api.allowed_recipients.emails%' => ['akozhevnikov@htc-cs.ru'],
+    '%communication_api.allowed_recipients.sms%' => ['+79199193777'],
+    '%communication_api.allowed_recipients.viber%' => ['+79199193777'],
+    '%communication_api.wsdl_url%' => 'https://dms.omnichannel.ru/api/v1/soap/service',
+    '%communication_api.use_test_service%' => false,
+
+    '%mailer.from_address%' => 'robot@loyalty.com',
+    '%mailer.from_name%' => 'robot',
+    '%mailer.method%' => 'smtp',
+    '%mailer.options.host%' => '127.0.0.1',
+    '%mailer.options.port%' => 25,
+    '%mailer.options.username%' => '',
+    '%mailer.options.password%' => '',
+    '%mailer.options.smtp_auth%' => true,
+
+    '%errors_sender.send_email%' => ['akozhevnikov@htc-cs.ru'],
+
+    '%promo_code_generator.salt%' => 'KJZXkjjkasda342987syd7HSD',
+
+    // если = true, не выполняет запрос к реальному сервису, всегда возвращает true
+    '%soap_existence_checker.result_always_true%' => true,
+
+    '%customer_ui_proxy.service_url%' => '{{ service.customer_ui.service_url }}',
+    '%customer_ui_proxy.inquiry_url%' => '{{ service.customer_ui.inquiry_url }}',
+
+    '%filestorage.storage_registry.reports.path%' => __DIR__ . '/web/www/download/reports',
+    '%filestorage.storage_registry.reports.public_uri%' => '',
+    '%filestorage.storage_registry.virtual_card.path%' => __DIR__ . '/web/www/download/virtual_card',
+    '%filestorage.storage_registry.virtual_card.public_uri%' => '',
+
+    '%client_auth_proxy.base_uri%' => '{{ service.auth.service_url }}',
+    '%client_auth_proxy.auth_web_uri%' => '/auth/webUser',
+    '%client_auth_proxy.auth_api_uri%' => '/auth/api',
+    '%client_auth_proxy.auth_processing_uri%' => '/auth/processing',
+    '%client_auth_proxy.clear_cache_uri%' => '/auth/clearCache',
+
+    '%geocode_geonames_proxy.username%' => '',
+    '%geocode_geonames_proxy.token%' => null,
+
+    '%company_ids.passbook.passbook_all_cards_uploader%' => [6,4],
+    '%company_ids.appointment_date_full_fill_daemon%' => [],
+
+    '%params.email_to%' => '',
+    '%params.feedback_email_to%' => '',
+    '%params.rightway_catalog_api_url%' => '{{ service.catalog.api_url }}',
+    '%params.rightway_catalog_uri%' => '{{ service.catalog.api_url }}',
+    '%params.sales_path%' => '',
+    '%params.landing_base_uri%' => 'omnichannel.ru',
+    '%params.log_message_update_count%' => true,
+
+    '%params.olap_export_options.ftp_server.server%' => '',
+    '%params.olap_export_options.ftp_server.port%' => 21,
+    '%params.olap_export_options.ftp_server.user%' => '',
+    '%params.olap_export_options.ftp_server.password%' => '',
+
+    // на проде '%session.cookie_params.domain%' => '.omnichannel.ru',
+    '%session.cookie_params.domain%' => null,
+
+    '%params.captcha_verification.recaptcha_site_key%' => '',
+    '%params.captcha_verification.verification_url%' => 'https://www.google.com/recaptcha/api/siteverify',
+    '%params.captcha_verification.verification_params.secret%' => '',
+    '%params.captcha_verification.verification_params.response%' => '',
+    '%params.captcha_verification.verification_params.remote_ip%' => null,
+
+    '%params.digital_wallet_key%' => 'test',
+    '%params.digital_wallet_confirmation_key_time_to_live%' => 300,
+    '%params.min_unsubscribed_participants_report_size%' => 1000,
+
+    '%web_admin.name%' => 'RightWay',
+    '%passbook_ui_proxy.service_url%' => '{{ service.passbook.service_url }}',
+
+    '%export_reports_to_ftp.tmp.shop_reports.path%' => '/home/apps/rightway/loyalty/applications/web/runtime/ftp/shop_reports/',
+
+    // ключи авторизации для апи ИМ
+    '%userAuth.keys%' => [
+        '123' => 'contact-centre',
+        '123456' => 'profile',
+    ],
+
+    '%mongo_host_catalog%' => 'mongo',
+    '%mongo_database_catalog%' => 'catalog',
+    '%mongo_enable_profiling_catalog%' => true,
+    '%mongo_username_catalog%' => '{{ mongodb.username }}',
+    '%mongo_password_catalog%' => '{{ mongodb.password }}',
+    '%mongo_auth_database_catalog%' => '{{ mongodb.auth_database }}',
+    '%mongodb_catalog.options%' => [
+        // Закомментировать username и password, если не используется авторизация
+        'username' => '%mongo_username_catalog%',
+        'password' => '%mongo_password_catalog%',
+        'db' => '%mongo_database_catalog%',
+        'authSource' => '%mongo_auth_database_catalog%',
+        'connectTimeoutMS' => 1200000,
+        'socketTimeoutMS' => 1200000,
+    ],
+
+    '%uploader.tempFolderPath%' => __DIR__ . '/web/www/upload/temp/',
+    '%uploader.viberImagesFolderName%' => 'viber',
+    '%loyaltyApiLogMessageTTLInSeconds%' => 7.884e6, //срок жизни логов API ИМ в секундах - 3 месяца
+
+    '%params.exponea_api_uri%' => 'https://api-cis.exponea.com/',
+
+    '%metrics.graphite_exporter_host%' => 'localhost',
+    '%metrics.graphite_exporter_port%' => '9109',
+    '%metrics.graphite_exporter_protocol%' => 'udp',
+    '%jwt_secret_key%' => 'secret',
+    '%params.application_base_url%' => 'http://omnichannel.ru',
+
+    '%power_bi_account%' => [
+        'username' => 'analytics_demo@omnichannel.ru',
+        'password' => 'Qwer147ty',
+        'native_app_id' => '1013d9ad-1c2e-42ab-a092-ff2d70f40fec',
+        'connect_timeout' => 3,
+        'timeout' => 5,
+    ],
+    '%power_bi_rest_connect_timeout%' => 3,
+    '%power_bi_rest_timeout%' => 5,
+
+    '%params.filestorage_api_uri%' => '{{ service.filestorage.service_url }}',
+    '%params.external_api_uri%' => '{{ service.external_api.service_url }}',
+    '%params.cheque_recognition_api_uri%' => '{{ service.cheque_recognition.service_url }}',
+    '%params.external_api_key%' => 'x-api-key',
+    '%params.fraudControlReportTTL%' => 7.884e6, //срок жизни отчетов по fraud-контролю в секундах - 3 месяца,
+    '%params.internal_api_uri%' => '{{ service.internal_api.service_url }}',
+    '%uploader.cardsEmissionFolderName%' => 'emission',
+    '%params.catalog_knauf_gift_category%' => 'gift',
+    '%params.catalog_knauf_good_category%' => 'goods',
+    //Налог на добавленную стоимость
+    '%params.nds%' => 0.18,
+    '%params.cardFilterUpdateDelay%' => 300000, //задержка обновления индекса карт в милисекундах - 300000 милисекунд = 5 минут
+
+    '%gelf_host%' => '{{ gelf.host }}',
+    '%gelf_port%' => {{ gelf.port }},
+    '%gelf_chunk_size%' => {{ gelf.chunk_size }},
+
+    '%params.use_mongo_card_index%' => false,
+    '%params.elastic_search_host%' => '{{ elasticsearch.host }}',
+    '%params.elastic_search_port%' => '{{ elasticsearch.port }}',
+
+    '%segments.localFileStorage%' => '/tmp/segments/files/',
+    // Настройки редиса для модуля настроек КПЛ
+        '%redis_clp_settings_host%' => 'redis',
+        '%redis_clp_settings_port%' => 6379,
+        '%redis_clp_settings_database%' => 2,
+        '%params.redis_clp_prefix%' => 'clp',
+        '%params.redis_clp_settings_cache_life_time%' => 86400,
+        '%communication_api.white_list%' => [
+            'enable' => true,
+            'source' => 'config', // db or config,
+            'emails' => '%communication_api.allowed_recipients.emails%',   // only for 'config' source
+            'phones' => '%communication_api.allowed_recipients.sms%',   // only for 'config' source
+        ],
+        '%params.unifiedCustomerFilterUpdateDelay%' => 300000,
+        '%params.internal_processing_uri%' => '{{ service.processing.service_url }}',
+
+        '%params.count_records_for_start_server_pagination%' => 10000,
+        '%params.local_mac_hash_files_path%' => '/tmp/',
+
+        '%params.exponea_local_reports_path%' => '/tmp/exponea/reports',
+        '%params.exponea_local_reports_path_card_events%' => '/tmp/exponea/card_events/reports',
+        '%params.exponea_api_uri_track%' => 'https://api.exponea.com/track/v2/',
+        '%params.exponea_project_token%' => '',
+        '%params.exponea_public_token%' => '',
+        '%params.exponea_secret_token%' => '',
+
+        '%params.elastic_search_host_catalog%' => '',
+        '%params.elastic_search_port_catalog%' => '',
+];

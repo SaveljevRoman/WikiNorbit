@@ -1,0 +1,112 @@
+создать ssh (зайди в папку ssh)
+
+прописать в файле hosts (зайди в папку --прописать в файле hosts пути)
+
+docker-compose
+docker.io этот докер на установку
+ansible на установку
+ 
+ 
+ 
+ прописать hosts (папка hosts пути)
+ 
+ 
+ 
+ делаем git clone(папка git clone)
+ 
+ 
+поменяй пути в .env
+вставь нужные файлы!(папка "проект с конфигами")
+
+
+
+
+прописать в докере user (просто команда sudo usermod -aG docker $USER)
+
+
+
+Из папки /deployment/apps-deployment/docker выполнить команду сборки контейнеров и их поднятие:
+~/norbit$ cd /deployment/apps-deployment/docker
+~/norbit/deployment/apps-deployment/docker$ docker-compose build
+~/norbit/deployment/apps-deployment/docker$ docker-compose up -d
+
+
+
+
+
+Из папки docker запустить утилиту ansible:
+../ansible/run_playbook_with_env.sh ./.env ../ansible/app_config.yaml
+
+
+
+
+
+Для каждого из необходимых приложений необходимо:
+Выполнить:
+docker exec -ti container-name bash
+Перейти в корень директории с приложением
+cd /home/apps/rightway/app_name
+
+Выполнить команду
+su apps
+composer install
+docker exec -ti rightway_loyalty_1 bash  (после сomposer install в loyalit-2-0  при loyalit.local должен выдавать ошибку базы данных , если fotal то дальше не иди! исправь!)
+docker exec -ti rightway_auth_1 bash
+docker exec -ti rightway_catalog_1 bash
+docker exec -ti rightway_filestorage_1 bash (будет ошибка сделать composer install повторно)
+docker exec -ti rightway_customer_ui_1 bash
+docker exec -ti rightway_external_api_1 bash
+docker exec -ti rightway_processing_1 bash (на ответы все yes, удалить параметр %auth_key_allowed_length% , потом верни)
+
+
+
+
+
+
+Базы данных
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=188153886
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=190349317
+
+
+
+
+
+дальше в postgress там где БД-cardsmile  нужно создать рядом бд inquiry_storage (папка СоздатьБд)
+
+
+
+
+
+
+
+создать пользователя монго
+https://professor-falken.com/ru/linux/como-crear-o-eliminar-usuarios-en-mongodb/
+use admin
+db.createUser(
+{
+user: "user",
+pwd: "passw0rd",
+roles: ["readWrite"]
+}
+)
+дальше в /home/malverdo/norbit/rightway-cheque-recognition-api/.env
+измените 
+MONGODB_USERNAME=user
+MONGODB_PASSWORD=passw0rd
+
+
+
+
+
+
+индексация
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=192118804 -- здесь запускаем по 5 , как в rabbit 0 то выключаем в консоле очередь и делаем опять 5
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=192118798
+
+
+
+
+
+миграции
+В общем заходим в контейнер, переходим под пользователя apps (su apps), запускаем php /home/apps/rightway/loyalty/applications/common/yiic migrate
+Если ошибки, комментим миграции и перезапускаем.

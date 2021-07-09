@@ -1,0 +1,28 @@
+
+# deployment/apps-deployment/ansible/common/variables.yaml 
+    
+# deployment/apps-deployment/docker/config/ssh-config
+
+# deployment/apps-deployment/docker/.env
+
+# deployment/apps-deployment/docker/docker-compose.yaml
+
+# deployment/apps-deployment/docker/nginx/xdebug.conf
+
+# deployment/apps-deployment/docker/php/Dockerfile
+
+# loyalty-2-0/applications/parameters.php
+
+# deployment/apps-deployment/docker/fluentd/Dockerfile
+
+/deployment/apps-deployment/ansible/templates/customer_ui.config.j2
+
+/deployment/apps-deployment/ansible/templates/cheque-recognition.config.j2
+
+/deployment/apps-deployment/ansible/templates/loyalty.config.j2
+
+/deployment/apps-deployment/ansible/templates/processing.config.j2
+
+
+в .env нужно установить пути своё имя заместо malverdo, а также свой id , введи в консоли id и поставь который указан (по умолчанию в убунте 1000)
+

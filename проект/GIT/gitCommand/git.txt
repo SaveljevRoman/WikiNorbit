@@ -1,0 +1,14 @@
+git checkout -b "name" -- создать и перейти в ветку
+git merge "name" -- объединить текущую ветку с "name"
+git push -u origin "name" -- запушить определёную ветку
+git push -- запушить
+git pull -- забрать последнии изменения
+git init -- создать новый гит 
+git add . -- добавить в индекс
+git reset "name" -- удалить из индекса 
+git commit -m "name" -- закомитеть
+git branch -- посмотреть какие есть ветки
+git branch -D "name" -- удалить ветку
+git checkout "name" -- перейти в другую ветку
+git stash -- спрятать изменения 
+git stash pop -- не прятать изменения

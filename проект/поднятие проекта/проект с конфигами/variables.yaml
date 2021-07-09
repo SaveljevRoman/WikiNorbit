@@ -1,0 +1,84 @@
+postgres:
+  main_version: "9.5"
+  main_host: "postgres"
+  main_port: 5432
+  main_db: "cardsmile"
+  main_user: "postgres"
+  main_pwd: "root"
+  inquiry_host: "postgres"
+  inquiry_port: 5432
+  inquiry_db: "inquiry_storage"
+  inquiry_user: "postgres"
+  inquiry_pwd: "root"
+  personal_version: "9.3"
+  personal_host: "postgres_personal"
+  personal_port: 5432
+  personal_db: "cardsmile_personal"
+  personal_user: "postgres"
+  personal_pwd: "root"
+rabbitmq:
+  dsn: "amqp://guest:guest@rabbitmq:5672"
+  host: "rabbitmq"
+  port: 5672
+  username: "guest"
+  password: "guest"
+  vhost: "/"
+mongodb:
+  dsn: "mongodb://mongo"
+  host: "mongo"
+  port: 27017
+  auth_database: "admin"
+  username: "user"
+  password: "passw0rd"
+  cardsmile_database: "cardsmile"
+  filestorage_database: "filestorage"
+  catalog_database: "catalog"
+redis:
+  prefix: "redis."
+  main_dsn: "redis://redis/"
+  main_host: "redis"
+  main_port: 6379
+  main_db: 0
+  cache_host: "redis"
+  cache_port: 6379
+  cache_db: 1
+elasticsearch:
+  host: "elasticsearch"
+  port: 9200
+gelf:
+  host: "fluentd"
+  port: 12201
+  chunk_size: 128
+service:
+  loyalty:
+    service_url: "http://loyalty.local"
+  customer_ui:
+    app_secret: "ThisTokenIsNotSoSecretChangeIt"
+    service_url: "http://customer_ui.local"
+    inquiry_url: "http://customer_ui.local/registration.html"
+  auth:
+    app_secret: "djksa6521jmaLdsklfsdDS321dL"
+    service_url: "http://auth.local"
+  catalog:
+    app_secret: "ThisTokenIsNotSoSecretChangeIt"
+    service_url: "http://catalog.local"
+    api_url: "http://catalog.local/api"
+  processing:
+    app_secret: "ThisTokenIsNotSoSecretChangeIt"
+    service_url: "http://processing.local"
+  passbook:
+    service_url: ""
+  filestorage:
+    app_secret: "4b1df0820586aa3563b18dbf2cad84a9"
+    service_url: "http://filestorage-api.local/"
+    host: "filestorage-api.local"
+    files_path: "/home/apps/files"
+  external_api:
+    app_secret: "ThisTokenIsNotSoSecretChangeIt"
+    service_url: "http://external-api.local"
+  internal_api:
+    service_url: "http://internal-api.local"
+  cheque_recognition:
+    service_url: "http://cheque-recognition.local"
+    db_name: "cheque_recognition"
+    app_secret: "ThisTokenIsNotSoSecretChangeIt"

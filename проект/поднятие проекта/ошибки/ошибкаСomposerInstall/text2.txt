@@ -1,0 +1,4 @@
+/home/malverdo/norbit/deployment/apps-deployment/docker/config/ssh-config
+
+файлу выдать права 755 
+и сделать чтобы пользователь был root команда вроде -- chmod root:root ssh-config

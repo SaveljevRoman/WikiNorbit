@@ -1,0 +1,356 @@
+version: '3.7'
+x-user:
+  &user-args
+  APP_USER_ID: ${HOST_USER_ID}
+  APP_USERGROUP_ID: ${HOST_USERGROUP_ID}
+x-php:
+  &php-context
+  context: ./php/
+  args:
+    <<: *user-args
+x-nginx:
+  &nginx-context
+  context: ./nginx/
+  args:
+    <<: *user-args
+x-volumes:
+  - &ssh-sec                ${SSH_PRIVATE_KEY}:/home/apps/.ssh/id_rsa
+  - &ssh-pub                ${SSH_PUBLIC_KEY}:/home/apps/.ssh/id_rsa.pub
+  - &ssh-conf               ${SSH_CONFIG}:/home/apps/.ssh/config
+  #  - &ssh-conf               ./config/ssh-config:/home/apps/.ssh/config
+  - &fpm-logs               fpm-logs-data:/var/log/php-fpm
+  - &nginx-logs             nginx-logs-data:/var/log/nginx
+  - &loyalty-nginx          ./config/loyalty.nginx:/etc/nginx/conf.d/loyalty.conf:ro
+  - &loyalty-fpm            ./config/loyalty.fpm:/etc/php/7.1/fpm/pool.d/loyalty.conf:ro
+  - &loyalty-app            ${LOYALTY_APP_PATH}:/home/apps/rightway/loyalty
+  - &customer-ui-nginx      ./config/customer-ui.nginx:/etc/nginx/conf.d/customer-ui.conf:ro
+  - &customer-ui-fpm        ./config/customer-ui.fpm:/etc/php/7.1/fpm/pool.d/customer-ui.conf:ro
+  - &customer-ui-app        ${CUSTOMER_UI_APP_PATH}:/home/apps/rightway/customer_ui
+  - &external-api-nginx     ./config/external-api.nginx:/etc/nginx/conf.d/external-api.conf:ro
+  - &external-api-fpm       ./config/external-api.fpm:/etc/php/7.1/fpm/pool.d/external-api.conf:ro
+  - &external-api-app       ${EXTERNAL_API_APP_PATH}:/home/apps/rightway/rightway-external-api/
+  - &auth-nginx             ./config/auth.nginx:/etc/nginx/conf.d/auth.conf:ro
+  - &auth-fpm               ./config/auth.fpm:/etc/php/7.1/fpm/pool.d/auth.conf:ro
+  - &auth-app               ${AUTH_APP_PATH}:/home/apps/rightway/auth_service
+  - &filestorage-api-nginx  ./config/filestorage-api.nginx:/etc/nginx/conf.d/filestorage-api.conf:ro
+  - &filestorage-api-fpm    ./config/filestorage-api.fpm:/etc/php/7.1/fpm/pool.d/filestorage-api.conf:ro
+  - &filestorage-api-app    ${FILESTORAGE_APP_PATH}:/home/apps/rightway/rightway-filestorage-api
+  - &catalog-nginx          ./config/catalog.nginx:/etc/nginx/conf.d/catalog.conf:ro
+  - &catalog-fpm            ./config/catalog.fpm:/etc/php/7.1/fpm/pool.d/catalog.conf:ro
+  - &catalog-app            ${CATALOG_APP_PATH}:/home/apps/rightway/rightway-catalog
+  - &processing-nginx       ./config/processing.nginx:/etc/nginx/conf.d/processing.conf:ro
+  - &processing-fpm         ./config/processing.fpm:/etc/php/7.1/fpm/pool.d/processing.conf:ro
+  - &processing-app         ${PROCESSING_APP_PATH}:/home/apps/rightway/loyalty-processing
+  - &frontol-nginx          ./config/frontol-proxy.nginx:/etc/nginx/conf.d/frontol-proxy.conf:ro
+  - &frontol-fpm            ./config/frontol-proxy.fpm:/etc/php/7.1/fpm/pool.d/frontol-proxy.conf:ro
+  - &frontol-app            ${FRONTOL_PROXY_APP_PATH}:/home/apps/rightway/rightway-frontol-proxy
+  - &cheque-recognition-nginx ./config/cheque-recognition.nginx:/etc/nginx/conf.d/cheque-recognition.conf:ro
+  - &cheque-recognition-fpm   ./config/cheque-recognition.fpm:/etc/php/7.1/fpm/pool.d/cheque-recognition.conf:ro
+  - &cheque-recognition-app   ${CHEQUE_RECOGNITION_APP_PATH}:/home/apps/rightway/rightway-cheque-recognition
+  - &wallet-backend-nginx     ./config/wallet-backend.nginx:/etc/nginx/conf.d/wallet-backend.conf:ro
+  - &wallet-backend-fpm       ./config/wallet-backend.fpm:/etc/php/7.1/fpm/pool.d/wallet-backend.conf:ro
+  - &wallet-backend-app       ${WALLET_BACKEND_APP_PATH}:/home/apps/rightway/wallet-backend
+  - &passteam-nginx           ./config/passteam.nginx:/etc/nginx/conf.d/passteam.conf:ro
+  - &passteam-fpm             ./config/passteam.fpm:/etc/php/7.1/fpm/pool.d/passteam.conf:ro
+  - &passteam-app             ${PASSTEAM_APP_PATH}:/home/apps/rightway/passteam
+  - &all-files                /home/malverdo/norbit/deployment/files:/home/apps/files:rw
+
+services:
+  loyalty:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *loyalty-fpm
+      - *loyalty-app
+      - *ssh-sec
+      - *ssh-pub
+      - *fpm-logs
+      - *ssh-conf
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=loyalty
+    depends_on:
+      - auth
+  customer_ui:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *customer-ui-fpm
+      - *customer-ui-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+  auth:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *auth-fpm
+      - *auth-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=auth
+  filestorage:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *filestorage-api-fpm
+      - *filestorage-api-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+      - *all-files
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=filestorage
+  external_api:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *external-api-fpm
+      - *external-api-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=external_api
+  catalog:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *catalog-fpm
+      - *catalog-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=catalog
+    depends_on:
+      - rabbitmq
+      - mongo
+      - postgres
+  processing:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *processing-fpm
+      - *processing-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=processing
+    depends_on:
+      - auth
+  frontol_proxy:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *frontol-fpm
+      - *frontol-app
+      - *ssh-pub
+      - *ssh-sec
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=frontol-proxy
+    depends_on:
+      - external_api
+      - processing
+  cheque_recognition:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *cheque-recognition-fpm
+      - *cheque-recognition-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=cheque-recognition
+  wallet_backend:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *wallet-backend-fpm
+      - *wallet-backend-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=wallet-backend
+  passteam:
+    build:
+      <<: *php-context
+    image: rightway-php:7.1
+    volumes:
+      - *passteam-fpm
+      - *passteam-app
+      - *ssh-sec
+      - *ssh-pub
+      - *ssh-conf
+      - *fpm-logs
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=passteam
+  nginx:
+    build:
+      <<: *nginx-context
+    image: rightway-nginx:1.12
+    restart: on-failure
+    volumes:
+      - *nginx-logs
+      - *loyalty-nginx
+      - *customer-ui-nginx
+      - *auth-nginx
+      - *filestorage-api-nginx
+      - *external-api-nginx
+      - *catalog-nginx
+      - *processing-nginx
+      - *frontol-nginx
+      - *cheque-recognition-nginx
+      - *wallet-backend-nginx
+      - *passteam-nginx
+      - *loyalty-app
+      - *customer-ui-app
+      - *auth-app
+      - *filestorage-api-app
+      - *external-api-app
+      - *catalog-app
+      - *processing-app
+      - *frontol-app
+      - *cheque-recognition-app
+      - *wallet-backend-app
+      - *passteam-app
+    ports:
+      - 80:80
+    networks:
+      default:
+        aliases:
+          - loyalty.local
+          - auth.local
+          - customer-ui.local
+          - filestorage-api.local
+          - external-api.local
+          - internal-api.local
+          - catalog.local
+          - processing.local
+          - frontol-proxy.local
+          - cheque-recognition.local
+          - wallet-backend.local
+          - passteam.local
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+    ports:
+      - 6379:6379
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_SERVER=rabbitmq
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+  mongo:
+    image: mongo:3.6
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+  postgres:
+    image: postgres:9.5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: cardsmile
+    ports:
+      - 54321:5432
+    volumes:
+      - pgsql-data:/var/lib/postgresql/data
+  postgres_personal:
+    image: postgres:9.3
+    ports:
+      - 54322:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: cardsmile_personal
+    volumes:
+      - pgsql-personal-data:/var/lib/postgresql/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.2
+    environment:
+      - discovery.type=single-node
+      - cluster.name=rigthway-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+  fluentd:
+    build:
+      context: ./fluentd/
+    image: rightway-fluentd:1.13
+    restart: on-failure
+    volumes:
+      - logs-data:/var/log/apps
+      - *nginx-logs
+      - *fpm-logs
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.3
+    ports:
+      - 5601:5601
+
+volumes:
+  pgsql-data:
+    driver: local
+  pgsql-personal-data:
+    driver: local
+  mongo-data:
+    driver: local
+  redis-data:
+    driver: local
+  es-data:
+    driver: local
+  logs-data:
+    driver: local
+  nginx-logs-data:
+    driver: local
+  fpm-logs-data:
+    driver: local
+  filestorage-data:
+    driver: local

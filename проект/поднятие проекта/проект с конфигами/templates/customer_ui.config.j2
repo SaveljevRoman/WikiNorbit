@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_pgsql
+    database_host: {{ postgres.inquiry_host }}
+    database_port: {{ postgres.inquiry_port }}
+    database_name: {{ postgres.inquiry_db }}
+    database_user: {{ postgres.inquiry_user }}
+    database_password: {{ postgres.inquiry_pwd }}
+    redis_dsn: '{{ redis.main_dsn }}'
+    locale: ru
+    secret: {{ service.customer_ui.app_secret }}
+    gelf_host: {{ gelf.host }}
+    gelf_port: {{ gelf.port }}
+    gelf_chunk_size: {{ gelf.chunk_size }}

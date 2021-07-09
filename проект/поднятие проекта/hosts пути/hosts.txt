@@ -1,0 +1,16 @@
+127.0.0.1 loyalty.local
+127.0.0.1 auth.local
+127.0.0.1 customer-ui.local
+127.0.0.1 external-api.local
+127.0.0.1 internal-api.local
+127.0.0.1 catalog.local
+127.0.0.1 filestorage-api.local
+127.0.0.1 processing.local
+127.0.0.1 wallet-backend.local
+127.0.0.1 passteam.local
+127.0.0.1 cheque-recognition.local
+
+
+etc/hosts
+
+

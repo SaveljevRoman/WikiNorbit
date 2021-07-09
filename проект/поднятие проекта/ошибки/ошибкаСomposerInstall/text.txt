@@ -1,0 +1,32 @@
+Ошибка на этапе composer install
+
+1. Заходим в /home/romansavelyev/norbit/deployment/apps-deployment/docker/.env и добавляем туда строку 
+SSH_CONFIG=/home/romansavelyev/.ssh/config
+
+2. Заходим в /home/romansavelyev/norbit/deployment/apps-deployment/docker/docker-compose.yaml
+На всякий случай комментируем 19 строку 
+# - &ssh-conf               ./config/ssh-config:/home/apps/.ssh/config
+вместо нее вставляем 
+- &ssh-conf               ${SSH_CONFIG}:/home/apps/.ssh/config
+
+3. Открываем консоль идем по пути, где лежит докер файл /home/romansavelyev/norbit/deployment/apps-deployment/docker
+Заходим в докер контейнер docker exec -ti rightway_loyalty_1 bash
+
+4. Заходим под пользователем apps - su apps
+
+5. Переходим по пути где лежит ssh - cd ~/.ssh 
+
+6. Проверяем есть ли файл конфига - ls -l
+
+7. Даем права на папку config
+chmod -R 755 config
+chown -R root:root config
+
+8. Роняем контейнер
+ docker-compose down
+
+9. Поднимаем контейнер заново
+docker-compose up -d
+
+P.S. Перед тем как поднять контейнер отруби сраный апач
+ sudo service apache2 stop

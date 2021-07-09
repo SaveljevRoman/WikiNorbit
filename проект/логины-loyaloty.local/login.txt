@@ -1,0 +1,7 @@
+login: admin_incity,	pass: 5Xza|cNH1
+login: operator_incity	pass: 5Xza|cNH
+login: operatorKC_incity	pass: 5Xza|cNH
+
+login: root_test	pass: 12345678aA!
+login: AdminPL	pass: P@ssw0rd
+login: Prodavec_restore	pass: P@ssw0rd

@@ -1,0 +1,6 @@
+
+СБРОС ТРИАЛА PHPSTORM (при смене версии, подставить свою)
+
+rm -rf ~/.config/JetBrains/PhpStorm2021.1/eval
+sed -i -E 's/<property name=\"evl.*\".*\/>//' ~/.config/JetBrains/PhpStorm2021.1/options/other.xml
+rm -rf ~/.java/.userPrefs/jetbrains/phpstorm

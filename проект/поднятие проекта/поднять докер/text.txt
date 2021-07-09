@@ -1,0 +1,8 @@
+запуск докера 
+docker-compose up -d
+остановка докера 
+docker-compose down
+
+в папке deployt/../../docker
+
+docker system prune -f -a -- очистеть докер после этого нужно bulid 

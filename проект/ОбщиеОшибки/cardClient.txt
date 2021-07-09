@@ -1,0 +1,11 @@
+Если не открывается карточка клиента:
+Идем в бд Cardsmile, там ищем таблицу clinent_settings, сортируем по id, для первого id меняем последний столбец (json_settings) и убираем в конце параметр useClp: false, если его нет в массиве то дописываем useClp: true
+Заходим под AdminPL.
+
+Так же если не открывает идем в консоль
+docker exec -ti rightway_loyalty_1 bash
+su apps
+cd rightway/loyalty/applications/common/
+ls -l 
+проверяем есть ли папка runtime,
+если нет, то mkdir runtime

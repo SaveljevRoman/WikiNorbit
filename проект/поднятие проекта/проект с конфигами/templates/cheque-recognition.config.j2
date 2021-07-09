@@ -1,0 +1,48 @@
+# This file is a "template" of which env vars need to be defined for your application
+# Copy this file to .env file for development, create environment variables when deploying to production
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+
+###> symfony/framework-bundle ###
+APP_ENV=dev
+APP_SECRET={{ service.cheque_recognition.app_secret }}
+###< symfony/framework-bundle ###
+
+MONGODB_URL={{ mongodb.dsn }}
+MONGODB_DATABASE={{ service.cheque_recognition.db_name }}
+MONGODB_USERNAME={{ mongodb.username }}
+MONGODB_PASSWORD={{ mongodb.password }}
+
+RABBITMQ_URL={{ rabbitmq.dsn }}
+RABBITMQ_VHOST={{ rabbitmq.vhost }}
+
+INTERNET_SHOP_BASE_URI=http://internet-shop
+INTERNAL_API_BASE_URI={{ service.internal_api.service_url }}
+PROCESSING_API_BASE_URI={{ service.processing.service_url }}
+EXTERNAL_API_KEY=external_api_key
+EXTERNAL_API_KEY_DEICHMANN=external_api_key
+EXTERNAL_API_BASE_URI={{ service.external_api.service_url }}
+CATALOG_API_BASE_URI={{ service.catalog.service_url }}
+CATALOG_KNAUF_GOOD_CATEGORY=Товары
+
+# http or soap
+FNS_CLIENT_TYPE=http
+FNS_API_BASE_URI=https://proverkacheka.nalog.ru:9999
+FNS_AUTH_WSDL=https://openapi.nalog.ru:8090/open-api/AuthService/0.1?wsdl
+FNS_CHEQUE_WSDL=https://openapi.nalog.ru:8090/open-api/ais3/KktService/0.1?wsdl
+FNS_MASTER_TOKEN=MASTER_TOKEN
+# Optional argument
+FNS_PROXY_URI=192.168.236.35:8118
+
+GELF_HOST={{ gelf.host }}
+GELF_PORT={{ gelf.port }}
+GELF_CHUNK_SIZE=1420
+
+### Taxcom
+# Настройки для http сервера
+TAXCOM_BASE_URI=https://taxcom.ru
+TAXCOM_PROXY_URI=''
+TAXCOM_TIMEOUT=10
+# Авторизационные данные
+TAXCOM_LOGIN=login
+TAXCOM_PASSWORD=password
+TAXCOM_INTEGRATOR_ID=integration-id

@@ -1,0 +1,6 @@
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=14417927
+
+Ветки называются так:
+<тип задачи>/<ФИО>.<краткое НазваниеЗадачи>.<КОД>
+
+Например: bug/alogachev.countChangesOfGenderField.OMNI-294

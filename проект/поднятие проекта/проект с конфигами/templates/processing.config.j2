@@ -1,0 +1,65 @@
+# This file is a "template" of what your parameters.yml file should look like
+parameters:
+    database_main_dsn: pgsql://{{ postgres.main_user }}:{{ postgres.main_pwd }}@{{ postgres.main_host}}:{{ postgres.main_port }}/{{ postgres.main_db }}
+    database_main_server_version: {{ postgres.main_version }}
+    database_personal_dsn: pgsql://{{ postgres.personal_user }}:{{ postgres.personal_pwd }}@{{ postgres.personal_host}}:{{ postgres.personal_port }}/{{ postgres.personal_db }}
+    database_personal_server_version: {{ postgres.personal_version }}
+
+    mongo_host: {{ mongodb.host }}
+    mongo_port: {{ mongodb.port }}
+    mongo_database: {{ mongodb.cardsmile_database }}
+    mongo_username: {{ (mongodb.username == "") | ternary("null", mongodb.username) }}
+    mongo_password: {{ (mongodb.password == "") | ternary("null", mongodb.password) }}
+
+    redis_dsn: '{{ redis.main_dsn }}{{ redis.main_db }}'
+
+    locale: en
+    secret: {{ service.processing.app_secret }}
+
+    rabbitmq_dsn: amqp://{{ rabbitmq.username }}:{{ rabbitmq.password }}@{{ rabbitmq.host }}:{{ rabbitmq.port }}
+    rabbitmq_vhost: {{ rabbitmq.vhost }}
+
+    local_sales_storage_path: /var/processing/sales
+    local_comparison_sales_storage_path: /var/processing/comparison/sales
+    confirmation_key_time_to_live: 600
+    confirmation_key_time_to_live_sms: 600
+    confirmation_key_time_to_live_email: 600
+
+    rightway_cardsmile_url: {{ service.loyalty.service_url }}
+
+    authentication_uri: '{{ service.auth.service_url }}/auth/processing'
+
+    # Флаг закрытия подключений с базами данных после обработки сообщения консьюмером
+    old_sound_rabbit_mq.consumer.close_orm_connections_after_message_processing: true
+
+    # Конфиг для OptimizedBonusPackProcessor'а
+    bonus_packs_max_amount_in_burning_cycle_iteration: 10000
+    # Количество дней, за которые происходит выборка сгорающих бонусов
+    bonus_packs_last_days_amount: 7
+
+    # Url до приложения каталога
+    right_way_catalog.catalog_host: '{{ service.catalog.service_url }}'
+    # Список идентификаторов МА, для которых возможно одновременно применить "подарок" и другую акцию
+    present_action_ids_for_apply: []
+
+    # Url до приложения external-api
+    external_api_uri: '{{ service.external_api.service_url }}'
+    # Ключ сервиса для external-api
+    external_api_key: 'x-api-key'
+
+    # Время жизни кэша в секундах для сервиса аутентификации
+    cache_ttl_seconds_auth_service: 1200
+
+    gelf_host: {{ gelf.host }}
+    gelf_port: {{ gelf.port }}
+    gelf_chunk_size: 1420
+
+    # Url до приложения internal-api
+    internal_api_uri: {{ service.internal_api.service_url }}
+
+    # Разрешение асинхронной обработки запросов applyPurchase
+    enable_async_apply_purchase: false
+
+    # Время жизни кэша в секундах для модуля настроек clp-settings
+    clp_settings_cache_life_time: 86400
+    clp_settings_prefix: 'clp'

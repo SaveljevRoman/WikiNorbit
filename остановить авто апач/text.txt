@@ -1,0 +1,5 @@
+Отключить автозапуск Apache
+sudo update-rc.d apache2 disable
+
+Чтобы вернуть автозапуск назад
+sudo update-rc.d apache2 enable

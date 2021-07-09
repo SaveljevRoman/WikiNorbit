@@ -1,0 +1,12 @@
+external-api
+
+в external-api вызвать phpinfo()  , 
+скопировать значение $_SERVER['REMOTE_ADDR'] ,
+1./home/malverdo/norbit/deployment/apps-deployment/docker/.env вставить в XDEBUG_REMOTE_HOST= значение
+2./home/malverdo/norbit/deployment/apps-deployment/docker/nginx/xdebug.conf вставить в et $xdebug_remote_host 'xdebug.remote_host= значение
+3./home/malverdo/norbit/deployment/apps-deployment/docker/php/Dockerfile после 66 строки(sh -c 'echo "xdebug.remote_enable=1" >> /etc/php/7.1/mods-available/xdebug.ini' && \) 
+Вставить
+sh -c 'echo "xdebug.remote_autostart=1" >> /etc/php/7.1/mods-available/xdebug.ini' && \
+ sh -c 'echo "xdebug.remote_connect_back=1" >> /etc/php/7.1/mods-available/xdebug.ini' && \
+ sh -c 'echo "xdebug.idekey=IDEA_DEBUG" >> /etc/php/7.1/mods-available/xdebug.ini' && \
+4. сделать docker-compose stop && docker-compose build && docker-compose up -d

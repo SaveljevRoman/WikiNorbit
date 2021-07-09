@@ -1,0 +1,15 @@
+Генерация RSA ключа:
+
+$ ssh-keygen -t rsa -C "your_email@example.com"
+
+Проверить сгенерированные ключи(приватный и публичный):
+
+$ ls /home/<user>/.ssh
+
+Скопировать полученный публичный ключ на сайт:
+
+$ cat /home/<user>/.ssh/id_rsa.pub
+
+создать 
+Даем права на папку config
+chmod -R 755 config

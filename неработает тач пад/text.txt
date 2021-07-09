@@ -1,0 +1,10 @@
+Lenovo-IdeaPad-S340-15IIL
+не работал тачпад
+помогло:
+sudo gedit /etc/default/grub
+там меняем GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" на GRUB_CMDLINE_LINUX_DEFAULT="i8042.nopnp=1 pci=nocrs"
+далее обновляем sudo update-grub
+и перезагружаем
+
+при этом до выполнения вышеуказанн
+ого тачпад ядром не определялся (less /proc/bus/input/devic

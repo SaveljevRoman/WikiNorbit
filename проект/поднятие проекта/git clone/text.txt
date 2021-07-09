@@ -1,0 +1,27 @@
+mkdir norbit
+
+cd norbit
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/loyalty-2-0.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/loyalty-customer-ui.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-auth.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-filestorage-api.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-external-api.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-catalog.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/loyalty-processing.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/deployment.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-frontol-proxy.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-cheque-recognition-api.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/passteam.git
+
+git clone ssh://git@git.cardsmile.ru:7999/loyal/rightway-wallet-backend.git

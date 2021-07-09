@@ -1,0 +1,5 @@
+http://wiki.cardsmile.ru:8090/pages/viewpage.action?pageId=192118798
+
+если ошибка killed 
+то нужно увеличить файл подкачки
+https://zalinux.ru/?p=2432

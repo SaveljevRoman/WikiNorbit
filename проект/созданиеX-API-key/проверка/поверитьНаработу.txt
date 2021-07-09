@@ -1,0 +1,7 @@
+external-api.local:80/externalApi/cities/36
+
+X-API-version     2.0
+X-API-Key        i1g2o3r4e5k6(это пароль)
+Connection        keep-alive
+Content-Type      application/json
+Accept            application/json
