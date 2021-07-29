@@ -12,3 +12,5 @@ git branch -D "name" -- удалить ветку
 git checkout "name" -- перейти в другую ветку
 git stash -- спрятать изменения 
 git stash pop -- не прятать изменения
+
+git restore applications/web/views/segmentRule/form.php -- откатить изминения 
